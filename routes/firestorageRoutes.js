@@ -81,4 +81,59 @@ router.delete("/deletePic", async (req, res) => {
   }
 });
 
+
+/**
+ * Upload a document Modified
+ */
+
+async function uploadFileToFirestore(filePath, destination) {
+    try {
+        const newFileName = Date.now() + path.extname(filePath.originalname);
+        const destinationPath = destination
+            ? `rabbit-turtle/${destination}/${newFileName}`
+            : `rabbit-turtle/${newFileName}`;
+
+        // Upload file to Firebase Storage
+        await bucket.upload(filePath.path, { destination: destinationPath });
+
+        // Make file publicly accessible
+        await bucket.file(destinationPath).makePublic();
+
+        // Generate the public URL
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${destinationPath}`;
+
+        return {
+            error: null,
+            uploaded: true,
+            oldFileName: filePath.originalname,
+            fileSize: filePath.size,
+            name: newFileName,
+            url: publicUrl,
+        };
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
+/**
+ * Delete a document by ID Modified
+ */
+
+async function deleteFileFromFirestore(fileUrl) {
+    // Extract the file path from the URL
+    const baseUrl = `https://storage.googleapis.com/${bucket.name}/`;
+
+    if (!fileUrl.startsWith(baseUrl)) {
+        throw new Error("Invalid file URL. Must be from the correct Firebase Storage bucket.");
+    }
+
+    const filePath = fileUrl.replace(baseUrl, "");
+
+    // Attempt to delete the file from the bucket
+    await bucket.file(filePath).delete();
+
+    // Return a success response
+    return { error: null, deleted: true, fileName: filePath };
+}
+
 module.exports = router;
