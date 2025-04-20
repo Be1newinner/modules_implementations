@@ -15,10 +15,16 @@ async function sendMailService() {
     try {
 
         const data = await transporter.sendMail({
-            from: '"Wingfi Support" <mail@web.shipsar.in>',
+            from: `"Wingfi Support" <${process.env.SMTP_USER}>`,
             to: "be1newinner@gmail.com",
             subject: "Welcome Mail!",
             text: "HOW ARE YOU! TESTING MAIL!",
+            html: `
+                <div>
+                    <h1>Hello</h1>
+                    <p>This is testing email!</p>
+                </div>
+                `
         });
         console.log(data)
     } catch (error) {
