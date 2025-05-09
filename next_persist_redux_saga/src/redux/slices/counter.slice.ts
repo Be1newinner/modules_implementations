@@ -36,11 +36,12 @@ export const counterSlice = createSlice({
     },
   },
   selectors: {
-    value: (state) => state.value,
-    loading: (state) => state.value,
-    error: (state) => state.value,
+    selectValue: (state) => state.value,
+    selectLoading: (state) => state.value,
+    selectError: (state) => state.value,
   },
 });
 
 export const { increase, decrease, reset } = counterSlice.actions;
-export const { value, loading, error } = counterSlice.selectors;
+export const { selectValue, selectLoading, selectError } =
+  counterSlice.selectors;
