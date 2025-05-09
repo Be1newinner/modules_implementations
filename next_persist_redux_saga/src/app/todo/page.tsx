@@ -1,6 +1,12 @@
 "use client";
 
-import { addItemTodo, selectNotes } from "@/redux/slices/todo.slice";
+import {
+  addItemTodo,
+  selectNotes,
+  deleteItemTodo,
+  editItemTodo,
+  clearTodo,
+} from "@/redux/slices/todo.slice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +21,22 @@ export default function App() {
       dispatch(addItemTodo({ title: addInput }));
       setAddInput("");
     }
+  }
+
+  function deleteInputFunction(id: string) {
+    dispatch(deleteItemTodo({ id }));
+  }
+  function editInputFunction(id: string, title: string) {
+    const newItem = prompt("Edit item", title);
+    if (newItem === null) return;
+    if (newItem.length === 0) {
+      alert("Please enter a valid item");
+      return;
+    }
+    dispatch(editItemTodo({ id, title: newItem }));
+  }
+  function clearInputFunction() {
+    dispatch(clearTodo());
   }
 
   return (
@@ -44,8 +66,12 @@ export default function App() {
             >
               <p>{e.title}</p>
               <div className="*:border *:!border-gray-400 *:shadow">
-                <button>Delete</button>
-                <button>Edit</button>
+                <button onClick={() => deleteInputFunction(e.id)}>
+                  Delete
+                </button>
+                <button onClick={() => editInputFunction(e.id, e.title)}>
+                  Edit
+                </button>
               </div>
             </div>
           );

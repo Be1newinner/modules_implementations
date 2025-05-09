@@ -28,7 +28,22 @@ export const todoSlice = createSlice({
         title: action.payload.title,
       };
     },
-    clear: (state) => {
+    editItemTodo: (
+      state,
+      action: PayloadAction<{ id: string; title: string }>
+    ) => {
+      const { id, title } = action.payload;
+      if (state.notes[id]) {
+        state.notes[id].title = title;
+      }
+    },
+    deleteItemTodo: (state, action: PayloadAction<{ id: string }>) => {
+      const { id } = action.payload;
+      if (state.notes[id]) {
+        delete state.notes[id];
+      }
+    },
+    clearTodo: (state) => {
       state.notes = {};
     },
   },
@@ -42,5 +57,6 @@ export const todoSlice = createSlice({
 export const makeSelectNoteById = (id: number) =>
   createSelector([selectNotes], (notes) => notes[id]);
 
-export const { addItemTodo, clear } = todoSlice.actions;
+export const { addItemTodo, clearTodo, deleteItemTodo, editItemTodo } =
+  todoSlice.actions;
 export const { selectError, selectLoading, selectNotes } = todoSlice.selectors;
