@@ -1,4 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 interface note {
   id: string;
@@ -22,7 +23,8 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addItemTodo: (state, action: PayloadAction<{ title: string }>) => {
-      const id = crypto.randomUUID();
+      // const id = crypto.randomUUID();
+      const id = uuidv4();
       state.notes[id] = {
         id,
         title: action.payload.title,
@@ -49,13 +51,32 @@ export const todoSlice = createSlice({
   },
   selectors: {
     selectNotes: (state) => state.notes,
+    // selectNotes1: (state) => state.notes["1"],
     selectLoading: (state) => state.loading,
     selectError: (state) => state.error,
   },
 });
 
-export const makeSelectNoteById = (id: number) =>
-  createSelector([selectNotes], (notes) => notes[id]);
+// const todoz = {
+//   a: {
+//     id: "a",
+//     title: "Todo 1",
+//   },
+//   b: {
+//     id: "b",
+//     title: "Todo 2",
+//   },
+//   c: {
+//     id: "c",
+//     title: "Todo 3",
+//   },
+// };
+
+export const dynamicTodoSelectors = {
+  makeSelectNoteById: (id: string) => {
+    return createSelector([selectNotes], (notes) => notes[id]);
+  },
+};
 
 export const { addItemTodo, clearTodo, deleteItemTodo, editItemTodo } =
   todoSlice.actions;

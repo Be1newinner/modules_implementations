@@ -6,14 +6,20 @@ import {
   deleteItemTodo,
   editItemTodo,
   clearTodo,
+  // dynamicTodoSelectors,
 } from "@/redux/slices/todo.slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
   const [addInput, setAddInput] = useState("");
 
   const items = useSelector(selectNotes);
+  // const sSelector = useSelector(
+  //   dynamicTodoSelectors.makeSelectNoteById(
+  //     "6a9a4552-0d7e-4109-97b9-7cf0e38d7f71"
+  //   )
+  // );
   const dispatch = useDispatch();
 
   function addInputFunction() {
@@ -38,6 +44,10 @@ export default function App() {
   function clearInputFunction() {
     dispatch(clearTodo());
   }
+
+  // useEffect(() => {
+  //   console.log("sSelector", sSelector);
+  // }, [sSelector]);
 
   return (
     <div className="todo_container max-h-[calc(100dvh-100px)] overflow-y-auto">

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface initialStateInterface {
   value: number;
@@ -17,22 +17,25 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     increase: (state) => {
-      return {
-        ...state,
-        value: state.value + 1,
-      };
+      state.value++;
     },
     decrease: (state) => {
-      return {
-        ...state,
-        value: state.value - 1,
-      };
+      state.value--;
     },
     reset: (state) => {
-      return {
-        ...state,
-        value: initialState.value,
-      };
+      state.value = 0;
+    },
+    increaseRequest: (state, _action: PayloadAction<number>) => {
+      state.loading = true;
+      state.error = "";
+    },
+    increaseSuccess: (state, action: PayloadAction<number>) => {
+      state.loading = false;
+      state.value += action.payload;
+    },
+    increaseFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
   selectors: {
@@ -42,6 +45,7 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { increase, decrease, reset } = counterSlice.actions;
+export const { increase, decrease, reset, increaseRequest } =
+  counterSlice.actions;
 export const { selectValue, selectLoading, selectError } =
   counterSlice.selectors;
