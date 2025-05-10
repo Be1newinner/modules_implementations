@@ -20,8 +20,4 @@ export default function* counterSaga(action: PayloadAction<number>) {
 export function* watchCounterSaga() {
   //   yield takeEvery("Counter/increaseRequest", counterSaga);
   yield takeLatest("Counter/increaseRequest", counterSaga);
-  yield takeLatest("Counter/increaseRequest", counterSaga);
-  yield takeLatest("Counter/increaseRequest", counterSaga);
-  yield takeLatest("Counter/increaseRequest", counterSaga);
-  yield takeLatest("Counter/increaseRequest", counterSaga);
 }

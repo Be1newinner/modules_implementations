@@ -45,7 +45,13 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { increase, decrease, reset, increaseRequest } =
-  counterSlice.actions;
+export const {
+  increase,
+  decrease,
+  reset,
+  increaseRequest,
+  increaseSuccess,
+  increaseFailure,
+} = counterSlice.actions;
 export const { selectValue, selectLoading, selectError } =
   counterSlice.selectors;
