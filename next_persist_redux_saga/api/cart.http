@@ -2,7 +2,7 @@
 POST http://localhost:5000/cart
 
 ### Cart increase API
-POST http://localhost:5000/cart/increase/1
+POST http://localhost:5000/cart/increase/2
 
 ### Cart decrease API
 POST http://localhost:5000/cart/decrease/1
