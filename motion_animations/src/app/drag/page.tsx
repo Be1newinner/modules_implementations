@@ -41,12 +41,12 @@ export default function Drag() {
         // onDragStart={(e, info) => {
         //   controls.start(e as PointerEvent, { snapToCursor: true });
         // }}
-        onDrag={(e) => {
-          if ("clientX" in e) {
-            setSunPos(Math.floor(e.clientX || 0));
-          }
-        }}
-        onPointerDown={(e) => controls.start(e, { snapToCursor: true })}
+        // onDrag={(e) => {
+        //   if ("clientX" in e) {
+        //     setSunPos(Math.floor(e.clientX || 0));
+        //   }
+        // }}
+        // onPointerDown={(e) => controls.start(e, { snapToCursor: true })}
         // dragDirectionLock={true}
         className="bg-yellow-500 w-32 h-32 rounded-full flex items-center justify-center absolute top-0 left-1/2 -translate-x-1/2"
       ></motion.div>
