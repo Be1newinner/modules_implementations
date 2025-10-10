@@ -1,0 +1,72 @@
+## Models for 2D Clothes Swapping Pipeline
+
+1. **MediaPipe Selfie Segmentation**  
+   - Purpose: Segment user’s body and shirt/clothes area from photo.  
+   - Mobile-friendly, real-time segmentation.
+
+2. **DeepLabV3 (MobileNet backbone)**  
+   - Purpose: Alternative for higher-accuracy semantic segmentation.
+
+3. **U^2-Net Light**  
+   - Purpose: Remove background from shirt photo for clean garment extraction.
+
+4. **MODNet (Mobile optimized)**  
+   - Purpose: Another option for person/background segmentation and background removal.
+
+5. **MoveNet Lightning**  
+   - Purpose: Fast pose estimation to find body keypoints for aligning clothes.
+
+6. **Apple Vision Pose Estimation** (iOS specific)  
+   - Purpose: Native high-performance pose detection on iOS.
+
+7. **Thin-plate spline / Affine warp (algorithmic)**  
+   - Purpose: Image warping technique for fitting shirt onto user body (not ML model but essential).
+
+8. **Alpha blending (algorithmic)**  
+   - Purpose: Seamless blending of warped shirt image onto user photo.
+
+9. **Pix2Pix Mobile (optional GAN)**  
+   - Purpose: Refine blending, add realism to merged shirt and user image.
+
+10. **Mobile-optimized VITON-like GAN (optional)**  
+    - Purpose: Advanced clothes transfer and texture detail enhancement.
+
+
+# Stepwise Instructions for Mobile 2D Clothes Swapping
+
+## 1. Capture & Preprocess User Image
+- Allow user to upload or take a photo in the app.
+- Resize/crop the image to a fixed resolution for model input balance between quality and speed.
+
+## 2. Body Segmentation & Garment Extraction
+- Run a lightweight segmentation model (e.g., MediaPipe Selfie Segmentation) on the user photo to identify the body and clothing areas.
+- Separately, run U²-Net Light or MODNet to remove the background and extract the garment from the clothes photo.
+
+## 3. Pose Estimation
+- Use MoveNet Lightning (cross-platform) or Apple Vision Pose Estimation (iOS only) to detect body keypoints in the user photo.
+
+## 4. Garment Warping and Alignment
+- Use detected keypoints to calculate transformation matrices.
+- Apply thin-plate spline or affine warp to deform the garment image to fit the user's pose/shape.
+- Implement this step using native optimized code to achieve performance.
+
+## 5. Naked Body Reconstruction (for sleeve removal)
+- Employ a lightweight body inpainting model (e.g., PEIPNet) to reconstruct occluded body parts (like arms under sleeves).
+- This model fills in the skin texture where sleeves were covering.
+
+## 6. Image Blending
+- Integrate the warped garment onto the user image using alpha blending for seamless edges.
+- Use GPU-accelerated routines for this blending.
+
+## 7. Optional Refinement with GAN
+- Optionally run a lightweight GAN-based model (like MobileStyleGAN) to enhance realism.
+- Consider running this in the background asynchronously to avoid blocking UI.
+
+## 8. Display Result and User Interaction
+- Show the final swapped image in the React Native app UI.
+- Allow user adjustments like garment positioning or swapping garments.
+
+## 9. Optimization & Deployment
+- Quantize and prune all models for mobile efficiency.
+- Leverage mobile accelerator APIs (TensorFlow Lite, CoreML).
+- Profile and optimize CPU/GPU usage.
