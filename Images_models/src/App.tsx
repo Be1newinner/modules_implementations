@@ -1,11 +1,6 @@
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import CapturePreprocessImage from './screens/HomePage';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,7 +17,8 @@ function App() {
 function AppContent() {
   return (
     <View style={styles.container}>
-      <Text>Hello</Text>
+      <CapturePreprocessImage />
+      {/* <Text>Hello</Text> */}
     </View>
   );
 }
